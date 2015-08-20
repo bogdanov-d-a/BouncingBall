@@ -93,9 +93,44 @@ bool HelloWorld::init()
 		wallBody->CreateFixture(&wallShapeDef);
 	}
 
-	//updateSprites();
+	updateSprites();
 
     return true;
+}
+
+void HelloWorld::update(float dt)
+{
+	Layer::update(dt);
+
+	m_physWorld.Step(dt, 10, 10);
+	updateSprites();
+}
+
+void HelloWorld::updateSprites()
+{
+	for (b2Body *b = m_physWorld.GetBodyList(); b; b = b->GetNext())
+	{
+		if (b->GetUserData() != nullptr)
+		{
+			Sprite *spriteData = (Sprite*)b->GetUserData();
+			spriteData->setPosition(ccp(b->GetPosition().x * ptmRatio,
+				b->GetPosition().y * ptmRatio));
+		}
+	}
+
+	//setPosition(ccp(0, Director::getInstance()->getVisibleSize().height / 2 - m_ballSprite->getPositionY()));
+}
+
+void HelloWorld::onEnter()
+{
+	Layer::onEnter();
+	scheduleUpdate();
+}
+
+void HelloWorld::onExit()
+{
+	unscheduleUpdate();
+	Layer::onExit();
 }
 
 const float HelloWorld::ptmRatio = 32.0f;

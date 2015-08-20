@@ -18,12 +18,18 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
+	virtual void update(float dt) override;
+	virtual void onEnter() override;
+	virtual void onExit() override;
+
 private:
 	static const float ptmRatio;
 
 	b2World m_physWorld;
 	b2Body *m_ballBody;
 	cocos2d::Sprite *m_ballSprite;
+
+	void updateSprites();
 };
 
 #endif // __HELLOWORLD_SCENE_H__
