@@ -2,6 +2,8 @@
 
 USING_NS_CC;
 
+#define PTM_RATIO 32
+
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -18,9 +20,11 @@ Scene* HelloWorld::createScene()
 }
 
 HelloWorld::HelloWorld()
-	:m_physWorld(b2Vec2(0.0f, -9.8f))
-	,m_ballBody(nullptr)
+	:m_physEngine(this, PTM_RATIO)
 	,m_ballSprite(nullptr)
+	,m_ballPuppeteer(nullptr)
+	,m_wallSprite(nullptr)
+	,m_wallPuppeteer(nullptr)
 {}
 
 // on "init" you need to initialize your instance
@@ -39,86 +43,68 @@ bool HelloWorld::init()
     /////////////////////////////
     // 3. add your codes below...
 
-	float sceneWidth = 480;
-	float sceneHeight = 640;
-
-	float ballStartX = sceneWidth / 2;
-	float ballStartY = sceneHeight - 100;
+	float ballStartX = 240;
+	float ballStartY = 540;
 	float ballRadius = 50;
 
-	float wallX = sceneWidth / 2;
+	float wallX = 240;
 	float wallY = 75;
 	float wallWidth = 300;
 	float wallHeight = 50;
 
-	{
-		m_ballSprite = Sprite::create("ball.png");
-		addChild(m_ballSprite);
+	// Create ball body and shape
+	b2BodyDef ballBodyDef;
+	ballBodyDef.type = b2_dynamicBody;
+	ballBodyDef.position.Set(ballStartX / PTM_RATIO, ballStartY / PTM_RATIO);
+	m_physEngine.createBody(ballBodyDef);
 
-		b2BodyDef ballBodyDef;
-		ballBodyDef.type = b2_dynamicBody;
-		ballBodyDef.position.Set(ballStartX / ptmRatio, ballStartY / ptmRatio);
-		ballBodyDef.userData = m_ballSprite;
-		m_ballBody = m_physWorld.CreateBody(&ballBodyDef);
+	// Create sprite and add it to the layer
+	m_ballSprite = Sprite::create("ball.png");
+	this->addChild(m_ballSprite);
 
-		b2CircleShape circle;
-		circle.m_radius = ballRadius / ptmRatio;
+	m_ballPuppeteer = NodePhysicsPuppeteer::create(m_ballSprite, ballBodyDef, &m_physEngine);
+	m_ballSprite->addChild(m_ballPuppeteer);
 
-		b2FixtureDef ballShapeDef;
-		ballShapeDef.shape = &circle;
-		ballShapeDef.density = 1.0f;
-		ballShapeDef.friction = 0.2f;
-		ballShapeDef.restitution = 0.8f;
-		m_ballBody->CreateFixture(&ballShapeDef);
-	}
+	b2CircleShape circle;
+	circle.m_radius = ballRadius / PTM_RATIO;
 
-	{
-		auto wallSprite = Sprite::create("wall.png");
-		wallSprite->setPosition(ccp(wallX, wallY));
-		addChild(wallSprite);
+	b2FixtureDef ballShapeDef;
+	ballShapeDef.shape = &circle;
+	ballShapeDef.density = 1.0f;
+	ballShapeDef.friction = 0.2f;
+	ballShapeDef.restitution = 0.8f;
+	m_ballPuppeteer->getBody()->CreateFixture(&ballShapeDef);
 
-		b2BodyDef wallBodyDef;
-		wallBodyDef.type = b2_staticBody;
-		wallBodyDef.position.Set(wallX / ptmRatio, wallY / ptmRatio);
-		auto wallBody = m_physWorld.CreateBody(&wallBodyDef);
+	// Create wall
+	b2BodyDef wallBodyDef;
+	wallBodyDef.type = b2_staticBody;
+	wallBodyDef.position.Set(wallX / PTM_RATIO, wallY / PTM_RATIO);
+	m_physEngine.createBody(wallBodyDef);
 
-		b2PolygonShape polygon;
-		polygon.SetAsBox(wallWidth / 2 / ptmRatio, wallHeight / 2 / ptmRatio);
+	// Add wall sprite
+	m_wallSprite = Sprite::create("wall.png");
+	this->addChild(m_wallSprite);
 
-		b2FixtureDef wallShapeDef;
-		wallShapeDef.shape = &polygon;
-		wallShapeDef.density = 1.0f;
-		wallShapeDef.friction = 0.2f;
-		wallShapeDef.restitution = 0.8f;
-		wallBody->CreateFixture(&wallShapeDef);
-	}
+	m_wallPuppeteer = NodePhysicsPuppeteer::create(m_wallSprite, wallBodyDef, &m_physEngine);  // MemLeak
+	m_wallSprite->addChild(m_wallPuppeteer);
 
-	updateSprites();
+	b2PolygonShape polygon;
+	polygon.SetAsBox(wallWidth / 2 / PTM_RATIO, wallHeight / 2 / PTM_RATIO);
 
-    return true;
+	b2FixtureDef wallShapeDef;
+	wallShapeDef.shape = &polygon;
+	wallShapeDef.density = 1.0f;
+	wallShapeDef.friction = 0.2f;
+	wallShapeDef.restitution = 0.8f;
+	m_wallPuppeteer->getBody()->CreateFixture(&wallShapeDef);
+
+	return true;
 }
 
 void HelloWorld::update(float dt)
 {
 	Layer::update(dt);
-
-	m_physWorld.Step(dt, 10, 10);
-	updateSprites();
-}
-
-void HelloWorld::updateSprites()
-{
-	for (b2Body *b = m_physWorld.GetBodyList(); b; b = b->GetNext())
-	{
-		if (b->GetUserData() != nullptr)
-		{
-			Sprite *spriteData = (Sprite*)b->GetUserData();
-			spriteData->setPosition(ccp(b->GetPosition().x * ptmRatio,
-				b->GetPosition().y * ptmRatio));
-		}
-	}
-
-	//setPosition(ccp(0, Director::getInstance()->getVisibleSize().height / 2 - m_ballSprite->getPositionY()));
+	m_physEngine.tick(dt);
 }
 
 void HelloWorld::onEnter()
@@ -132,5 +118,3 @@ void HelloWorld::onExit()
 	unscheduleUpdate();
 	Layer::onExit();
 }
-
-const float HelloWorld::ptmRatio = 32.0f;

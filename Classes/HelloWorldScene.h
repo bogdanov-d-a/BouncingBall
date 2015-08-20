@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include "Box2D\Box2D.h"
+#include "PhysicsEngine.h"
+#include "NodePhysicsPuppeteer.h"
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -23,13 +25,11 @@ public:
 	virtual void onExit() override;
 
 private:
-	static const float ptmRatio;
-
-	b2World m_physWorld;
-	b2Body *m_ballBody;
+	PhysicsEngine m_physEngine;
 	cocos2d::Sprite *m_ballSprite;
-
-	void updateSprites();
+	NodePhysicsPuppeteer *m_ballPuppeteer;
+	cocos2d::Sprite *m_wallSprite;
+	NodePhysicsPuppeteer *m_wallPuppeteer;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
