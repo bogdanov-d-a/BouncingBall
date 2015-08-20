@@ -85,7 +85,7 @@ bool HelloWorld::init()
 	m_wallSprite = Sprite::create("wall.png");
 	this->addChild(m_wallSprite);
 
-	m_wallPuppeteer = NodePhysicsPuppeteer::create(m_wallSprite, wallBodyDef, &m_physEngine);  // MemLeak
+	m_wallPuppeteer = NodePhysicsPuppeteer::create(m_wallSprite, wallBodyDef, &m_physEngine);
 	m_wallSprite->addChild(m_wallPuppeteer);
 
 	b2PolygonShape polygon;
