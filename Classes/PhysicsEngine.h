@@ -3,9 +3,11 @@
 #include "cocos2d.h"
 #include "Box2D\Box2D.h"
 
-class PhysicsEngine
+class PhysicsEngine : public cocos2d::Node
 {
 public:
+	static PhysicsEngine* create(cocos2d::CCLayer *parent, int pixelsPerMeter);
+
     PhysicsEngine(cocos2d::CCLayer *parent, int pixelsPerMeter);
     ~PhysicsEngine();
 

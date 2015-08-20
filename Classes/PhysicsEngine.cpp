@@ -2,6 +2,14 @@
 #include "PhysicsPuppeteer.h"
 #include "PhysicsContactsListener.h"
 
+PhysicsEngine* PhysicsEngine::create(cocos2d::CCLayer *parent, int pixelsPerMeter)
+{
+	PhysicsEngine *ret = new PhysicsEngine(parent, pixelsPerMeter);
+	ret->init();
+	ret->autorelease();
+	return ret;
+}
+
 PhysicsEngine::PhysicsEngine(cocos2d::CCLayer *parent, int pixelsPerMeter)
 : mWorld(nullptr)
 , mPixelsPerMeter(pixelsPerMeter)
