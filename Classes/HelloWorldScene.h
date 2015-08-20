@@ -6,6 +6,8 @@
 #include "PhysicsEngine.h"
 #include "BallPuppeteer.h"
 
+class BallPuppeteer;
+
 class HelloWorld : public cocos2d::Layer
 {
 public:
@@ -23,6 +25,8 @@ public:
 	virtual void update(float dt) override;
 	virtual void onEnter() override;
 	virtual void onExit() override;
+
+	void ShiftCamera(float dy);
 
 private:
 	PhysicsEngine *m_physEngine;

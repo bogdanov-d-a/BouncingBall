@@ -65,7 +65,7 @@ bool HelloWorld::init()
 	m_ballSprite = Sprite::create("ball.png");
 	this->addChild(m_ballSprite);
 
-	m_ballPuppeteer = BallPuppeteer::create(m_ballSprite, ballBodyDef, m_physEngine);
+	m_ballPuppeteer = BallPuppeteer::create(m_ballSprite, ballBodyDef, m_physEngine, this);
 	m_ballSprite->addChild(m_ballPuppeteer);
 
 	b2CircleShape circle;
@@ -120,4 +120,9 @@ void HelloWorld::onExit()
 {
 	unscheduleUpdate();
 	Layer::onExit();
+}
+
+void HelloWorld::ShiftCamera(float dy)
+{
+	setPosition(getPosition() + Vec2(0, dy));
 }
