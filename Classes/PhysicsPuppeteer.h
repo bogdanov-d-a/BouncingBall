@@ -23,7 +23,7 @@ public:
 class PhysicsPuppeteer : public cocos2d::CCNode
 {
 public:
-	PhysicsPuppeteer();
+    PhysicsPuppeteer();
     ~PhysicsPuppeteer();
     void init(const b2BodyDef &bodyDef, PhysicsEngine *engine);
 

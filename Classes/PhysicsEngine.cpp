@@ -4,10 +4,10 @@
 
 PhysicsEngine* PhysicsEngine::create(cocos2d::CCLayer *parent, int pixelsPerMeter)
 {
-	PhysicsEngine *ret = new PhysicsEngine(parent, pixelsPerMeter);
-	ret->init();
-	ret->autorelease();
-	return ret;
+    PhysicsEngine *ret = new PhysicsEngine(parent, pixelsPerMeter);
+    ret->init();
+    ret->autorelease();
+    return ret;
 }
 
 PhysicsEngine::PhysicsEngine(cocos2d::CCLayer *parent, int pixelsPerMeter)
@@ -72,7 +72,7 @@ void PhysicsEngine::tick(float dt)
 cocos2d::CCPoint PhysicsEngine::getBodyPosition(b2Body *body) const
 {
     const b2Vec2 &pos = body->GetPosition();
-	return cocos2d::CCPoint(mPixelsPerMeter * pos.x, mPixelsPerMeter * pos.y);
+    return cocos2d::CCPoint(mPixelsPerMeter * pos.x, mPixelsPerMeter * pos.y);
 }
 
 float PhysicsEngine::getBodyRotation(b2Body *body) const
@@ -97,20 +97,20 @@ int PhysicsEngine::getPtmRatio() const
 
 b2Vec2 PhysicsEngine::getNodePosition(cocos2d::CCNode *node) const
 {
-	return getNodePointPosition(node, cocos2d::CCPoint(0, 0));
+    return getNodePointPosition(node, cocos2d::CCPoint(0, 0));
 }
 
 b2Vec2 PhysicsEngine::getNodePointPosition(cocos2d::CCNode *node, const cocos2d::CCPoint &point) const
 {
-	cocos2d::CCAffineTransform transform = cocos2d::CCAffineTransformIdentity();
+    cocos2d::CCAffineTransform transform = cocos2d::CCAffineTransformIdentity();
     for (;;) {
-		cocos2d::CCAffineTransform next = node->nodeToParentTransform();
+        cocos2d::CCAffineTransform next = node->nodeToParentTransform();
         transform = CCAffineTransformConcat(transform, next);
         node = node->getParent();
         CCAssert(node, "Node is out of Box2D world: physics layer is not parent of this node.");
         if (node == m_parent)
             break;
     }
-	cocos2d::CCPoint position = CCPointApplyAffineTransform(point, transform);
+    cocos2d::CCPoint position = CCPointApplyAffineTransform(point, transform);
     return b2Vec2(position.x / mPixelsPerMeter, position.y / mPixelsPerMeter);
 }
