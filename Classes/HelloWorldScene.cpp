@@ -65,7 +65,7 @@ bool HelloWorld::init()
 	m_ballSprite = Sprite::create("ball.png");
 	this->addChild(m_ballSprite);
 
-	m_ballPuppeteer = NodePhysicsPuppeteer::create(m_ballSprite, ballBodyDef, m_physEngine);
+	m_ballPuppeteer = BallPuppeteer::create(m_ballSprite, ballBodyDef, m_physEngine);
 	m_ballSprite->addChild(m_ballPuppeteer);
 
 	b2CircleShape circle;

@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Box2D\Box2D.h"
 #include "PhysicsEngine.h"
-#include "NodePhysicsPuppeteer.h"
+#include "BallPuppeteer.h"
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -27,7 +27,7 @@ public:
 private:
 	PhysicsEngine *m_physEngine;
 	cocos2d::Sprite *m_ballSprite;
-	NodePhysicsPuppeteer *m_ballPuppeteer;
+	BallPuppeteer *m_ballPuppeteer;
 	cocos2d::Sprite *m_wallSprite;
 	NodePhysicsPuppeteer *m_wallPuppeteer;
 };
