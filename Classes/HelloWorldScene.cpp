@@ -20,7 +20,7 @@ Scene* HelloWorld::createScene()
 }
 
 HelloWorld::HelloWorld()
-	:m_physEngine(this, PTM_RATIO)
+	:m_physEngine(nullptr)
 	,m_ballSprite(nullptr)
 	,m_ballPuppeteer(nullptr)
 	,m_wallSprite(nullptr)
@@ -52,17 +52,20 @@ bool HelloWorld::init()
 	float wallWidth = 300;
 	float wallHeight = 50;
 
+	m_physEngine = PhysicsEngine::create(this, PTM_RATIO);
+	addChild(m_physEngine);
+
 	// Create ball body and shape
 	b2BodyDef ballBodyDef;
 	ballBodyDef.type = b2_dynamicBody;
 	ballBodyDef.position.Set(ballStartX / PTM_RATIO, ballStartY / PTM_RATIO);
-	m_physEngine.createBody(ballBodyDef);
+	m_physEngine->createBody(ballBodyDef);
 
 	// Create sprite and add it to the layer
 	m_ballSprite = Sprite::create("ball.png");
 	this->addChild(m_ballSprite);
 
-	m_ballPuppeteer = NodePhysicsPuppeteer::create(m_ballSprite, ballBodyDef, &m_physEngine);
+	m_ballPuppeteer = NodePhysicsPuppeteer::create(m_ballSprite, ballBodyDef, m_physEngine);
 	m_ballSprite->addChild(m_ballPuppeteer);
 
 	b2CircleShape circle;
@@ -79,13 +82,13 @@ bool HelloWorld::init()
 	b2BodyDef wallBodyDef;
 	wallBodyDef.type = b2_staticBody;
 	wallBodyDef.position.Set(wallX / PTM_RATIO, wallY / PTM_RATIO);
-	m_physEngine.createBody(wallBodyDef);
+	m_physEngine->createBody(wallBodyDef);
 
 	// Add wall sprite
 	m_wallSprite = Sprite::create("wall.png");
 	this->addChild(m_wallSprite);
 
-	m_wallPuppeteer = NodePhysicsPuppeteer::create(m_wallSprite, wallBodyDef, &m_physEngine);
+	m_wallPuppeteer = NodePhysicsPuppeteer::create(m_wallSprite, wallBodyDef, m_physEngine);
 	m_wallSprite->addChild(m_wallPuppeteer);
 
 	b2PolygonShape polygon;
@@ -104,7 +107,7 @@ bool HelloWorld::init()
 void HelloWorld::update(float dt)
 {
 	Layer::update(dt);
-	m_physEngine.tick(dt);
+	m_physEngine->tick(dt);
 }
 
 void HelloWorld::onEnter()

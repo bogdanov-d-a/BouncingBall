@@ -25,7 +25,7 @@ public:
 	virtual void onExit() override;
 
 private:
-	PhysicsEngine m_physEngine;
+	PhysicsEngine *m_physEngine;
 	cocos2d::Sprite *m_ballSprite;
 	NodePhysicsPuppeteer *m_ballPuppeteer;
 	cocos2d::Sprite *m_wallSprite;
