@@ -6,10 +6,16 @@ USING_NS_CC;
 
 PhysicsEngine* PhysicsEngine::create(Layer *parent, int pixelsPerMeter)
 {
-	PhysicsEngine *ret = new PhysicsEngine(parent, pixelsPerMeter);
-	ret->init();
-	ret->autorelease();
-	return ret;
+	PhysicsEngine *pRet = new (std::nothrow) PhysicsEngine(parent, pixelsPerMeter);
+	if (pRet && pRet->init())
+	{
+		pRet->autorelease();
+	}
+	else
+	{
+		CC_SAFE_DELETE(pRet);
+	}
+	return pRet;
 }
 
 PhysicsEngine::PhysicsEngine(Layer *parent, int pixelsPerMeter)
