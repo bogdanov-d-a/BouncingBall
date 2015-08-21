@@ -2,12 +2,10 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
-#include "Box2D\Box2D.h"
-#include "PhysicsEngine.h"
-#include "BallPuppeteer.h"
-#include "Ball.h"
 
-class BallPuppeteer;
+class PhysicsEngine;
+class Ball;
+class NodePhysicsPuppeteer;
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -32,7 +30,6 @@ public:
 private:
 	PhysicsEngine *m_physEngine;
 	Ball *m_ballSprite;
-	BallPuppeteer *m_ballPuppeteer;
 	cocos2d::Sprite *m_wallSprite;
 	NodePhysicsPuppeteer *m_wallPuppeteer;
 };

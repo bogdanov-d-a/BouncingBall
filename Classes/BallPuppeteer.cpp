@@ -1,4 +1,5 @@
 #include "BallPuppeteer.h"
+#include "HelloWorldScene.h"
 
 BallPuppeteer *BallPuppeteer::create(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine, HelloWorld *parent)
 {

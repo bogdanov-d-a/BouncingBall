@@ -1,4 +1,7 @@
 #include "HelloWorldScene.h"
+#include "PhysicsEngine.h"
+#include "Ball.h"
+#include "NodePhysicsPuppeteer.h"
 
 USING_NS_CC;
 
@@ -22,7 +25,6 @@ Scene* HelloWorld::createScene()
 HelloWorld::HelloWorld()
 	:m_physEngine(nullptr)
 	,m_ballSprite(nullptr)
-	,m_ballPuppeteer(nullptr)
 	,m_wallSprite(nullptr)
 	,m_wallPuppeteer(nullptr)
 {}
@@ -55,28 +57,8 @@ bool HelloWorld::init()
 	m_physEngine = PhysicsEngine::create(this, PTM_RATIO);
 	addChild(m_physEngine);
 
-	// Create ball body and shape
-	b2BodyDef ballBodyDef;
-	ballBodyDef.type = b2_dynamicBody;
-	ballBodyDef.position.Set(ballStartX / PTM_RATIO, ballStartY / PTM_RATIO);
-	m_physEngine->createBody(ballBodyDef);
-
-	// Create sprite and add it to the layer
-	m_ballSprite = Ball::create();
+	m_ballSprite = Ball::create(m_physEngine, b2Vec2(ballStartX / m_physEngine->getPtmRatio(), ballStartY / m_physEngine->getPtmRatio()), ballRadius / m_physEngine->getPtmRatio(), this);
 	this->addChild(m_ballSprite);
-
-	m_ballPuppeteer = BallPuppeteer::create(m_ballSprite, ballBodyDef, m_physEngine, this);
-	m_ballSprite->addChild(m_ballPuppeteer);
-
-	b2CircleShape circle;
-	circle.m_radius = ballRadius / PTM_RATIO;
-
-	b2FixtureDef ballShapeDef;
-	ballShapeDef.shape = &circle;
-	ballShapeDef.density = 1.0f;
-	ballShapeDef.friction = 0.2f;
-	ballShapeDef.restitution = 0.8f;
-	m_ballPuppeteer->getBody()->CreateFixture(&ballShapeDef);
 
 	// Create wall
 	b2BodyDef wallBodyDef;

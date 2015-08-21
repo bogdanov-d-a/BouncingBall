@@ -1,7 +1,6 @@
 #pragma once
 
 #include "NodePhysicsPuppeteer.h"
-#include "HelloWorldScene.h"
 
 class HelloWorld;
 
