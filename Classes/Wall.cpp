@@ -29,10 +29,9 @@ bool Wall::init(PhysicsEngine *physEngine, b2Vec2 const& startPos, Size const& s
 	if (!physEngine->createBody(wallBodyDef))
 		CCASSERT(false, "Can't create body");
 
-	auto wallPuppeteer = NodePhysicsPuppeteer::create(this, wallBodyDef, physEngine);
-	if (!wallPuppeteer)
+	m_puppeteer = NodePhysicsPuppeteer::create(this, wallBodyDef, physEngine);
+	if (!m_puppeteer.Keeps())
 		return false;
-	addChild(wallPuppeteer);
 
 	b2PolygonShape polygon;
 	polygon.SetAsBox(size.width / 2, size.height / 2);
@@ -42,7 +41,7 @@ bool Wall::init(PhysicsEngine *physEngine, b2Vec2 const& startPos, Size const& s
 	wallShapeDef.density = 1.0f;
 	wallShapeDef.friction = 0.2f;
 	wallShapeDef.restitution = 0.8f;
-	if (!wallPuppeteer->getBody()->CreateFixture(&wallShapeDef))
+	if (!m_puppeteer->getBody()->CreateFixture(&wallShapeDef))
 		CCASSERT(false, "Can't create fixture");
 
 	return true;
