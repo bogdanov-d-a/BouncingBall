@@ -62,7 +62,7 @@ bool HelloWorld::init()
 	m_physEngine->createBody(ballBodyDef);
 
 	// Create sprite and add it to the layer
-	m_ballSprite = Sprite::create("ball.png");
+	m_ballSprite = Ball::create();
 	this->addChild(m_ballSprite);
 
 	m_ballPuppeteer = BallPuppeteer::create(m_ballSprite, ballBodyDef, m_physEngine, this);

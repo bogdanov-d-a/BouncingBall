@@ -5,6 +5,7 @@
 #include "Box2D\Box2D.h"
 #include "PhysicsEngine.h"
 #include "BallPuppeteer.h"
+#include "Ball.h"
 
 class BallPuppeteer;
 
@@ -30,7 +31,7 @@ public:
 
 private:
 	PhysicsEngine *m_physEngine;
-	cocos2d::Sprite *m_ballSprite;
+	Ball *m_ballSprite;
 	BallPuppeteer *m_ballPuppeteer;
 	cocos2d::Sprite *m_wallSprite;
 	NodePhysicsPuppeteer *m_wallPuppeteer;
