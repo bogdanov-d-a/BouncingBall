@@ -5,10 +5,16 @@ USING_NS_CC;
 
 NodePhysicsPuppeteer *NodePhysicsPuppeteer::create(Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine)
 {
-	NodePhysicsPuppeteer *ret = new NodePhysicsPuppeteer();
-	ret->init(node, bodyDef, engine);
-	ret->autorelease();
-	return ret;
+	NodePhysicsPuppeteer *pRet = new (std::nothrow) NodePhysicsPuppeteer(node);
+	if (pRet && pRet->init(bodyDef, engine))
+	{
+		pRet->autorelease();
+	}
+	else
+	{
+		CC_SAFE_DELETE(pRet);
+	}
+	return pRet;
 }
 
 void NodePhysicsPuppeteer::didUpdatePhysics()
@@ -20,20 +26,9 @@ void NodePhysicsPuppeteer::didUpdatePhysics()
 void NodePhysicsPuppeteer::willUpdatePhysics(float dt)
 {}
 
-NodePhysicsPuppeteer::NodePhysicsPuppeteer()
-	: m_node(nullptr)
+NodePhysicsPuppeteer::NodePhysicsPuppeteer(Node *node)
+	: m_node(node)
 {}
-
-bool NodePhysicsPuppeteer::init(Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine)
-{
-	if (!PhysicsPuppeteer::init(bodyDef, engine))
-	{
-		return false;
-	}
-
-	m_node = node;
-	return true;
-}
 
 Node *NodePhysicsPuppeteer::getNode() const
 {

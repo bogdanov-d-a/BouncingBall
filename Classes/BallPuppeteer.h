@@ -9,7 +9,7 @@ class BallPuppeteer : public NodePhysicsPuppeteer
 public:
 	static BallPuppeteer *create(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine, HelloWorld *parent);
 
-	BallPuppeteer(HelloWorld *parent);
+	BallPuppeteer(cocos2d::CCNode *node, HelloWorld *parent);
 
 	void didBeginContact(const PhysicsContactInfo &info) override;
 	void didEndContact(const PhysicsContactInfo &info) override;

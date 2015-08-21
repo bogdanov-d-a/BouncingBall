@@ -3,14 +3,15 @@
 
 BallPuppeteer *BallPuppeteer::create(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine, HelloWorld *parent)
 {
-	BallPuppeteer *ret = new BallPuppeteer(parent);
-	ret->init(node, bodyDef, engine);
+	BallPuppeteer *ret = new BallPuppeteer(node, parent);
+	ret->init(bodyDef, engine);
 	ret->autorelease();
 	return ret;
 }
 
-BallPuppeteer::BallPuppeteer(HelloWorld *parent)
-	:m_parent(parent)
+BallPuppeteer::BallPuppeteer(cocos2d::CCNode *node, HelloWorld *parent)
+	: NodePhysicsPuppeteer(node)
+	, m_parent(parent)
 {}
 
 void BallPuppeteer::didBeginContact(const PhysicsContactInfo &info)

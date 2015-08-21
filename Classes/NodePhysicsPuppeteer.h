@@ -10,8 +10,7 @@ public:
 	void willUpdatePhysics(float dt) override;
 
 protected:
-	NodePhysicsPuppeteer();
-	bool init(cocos2d::Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine);
+	NodePhysicsPuppeteer(cocos2d::Node *node);
 	cocos2d::Node *getNode() const;
 
 private:
