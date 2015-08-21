@@ -6,18 +6,22 @@ USING_NS_CC;
 
 Ball* Ball::create(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius, HelloWorld *scene)
 {
-	Ball *ret = new Ball(physEngine, startPos, radius, scene);
-	ret->initWithFile("ball.png");
+	Ball *ret = new Ball();
+	ret->init(physEngine, startPos, radius, scene);
 	ret->autorelease();
 	return ret;
 }
 
-Ball::Ball(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius, HelloWorld *scene)
+bool Ball::init(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius, HelloWorld *scene)
 {
+	if (!Sprite::initWithFile("ball.png"))
+		return false;
+
 	b2BodyDef ballBodyDef;
 	ballBodyDef.type = b2_dynamicBody;
 	ballBodyDef.position = startPos;
-	physEngine->createBody(ballBodyDef);
+	if (!physEngine->createBody(ballBodyDef))
+		CCASSERT(false, "Can't create body");
 
 	auto m_ballPuppeteer = BallPuppeteer::create(this, ballBodyDef, physEngine, scene);
 	addChild(m_ballPuppeteer);
@@ -31,4 +35,6 @@ Ball::Ball(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius, Hell
 	ballShapeDef.friction = 0.2f;
 	ballShapeDef.restitution = 0.8f;
 	m_ballPuppeteer->getBody()->CreateFixture(&ballShapeDef);
+
+	return true;
 }

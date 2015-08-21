@@ -10,5 +10,5 @@ class Ball : public cocos2d::Sprite
 {
 public:
 	static Ball* create(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius, HelloWorld *scene);
-	Ball(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius, HelloWorld *scene);
+	bool init(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius, HelloWorld *scene);
 };
