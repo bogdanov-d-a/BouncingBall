@@ -14,18 +14,32 @@ PhysicsEngine* PhysicsEngine::create(Layer *parent, int pixelsPerMeter)
 
 PhysicsEngine::PhysicsEngine(Layer *parent, int pixelsPerMeter)
 	: mWorld(nullptr)
+	, mContactsListener(nullptr)
 	, mPixelsPerMeter(pixelsPerMeter)
 	, m_parent(parent)
+{}
+
+bool PhysicsEngine::init()
 {
-	b2Vec2 gravity;
-	gravity.Set(0.0f, -9.8f);
-	mWorld = new b2World(gravity);
-	mWorld->SetContactListener(new PhysicsContactsListener);
+	if (!Node::init())
+		return false;
+
+	mWorld = new (std::nothrow) b2World(b2Vec2(0.0f, -9.8f));
+	if (!mWorld)
+		return false;
+
+	mContactsListener = new (std::nothrow) PhysicsContactsListener();
+	if (!mContactsListener)
+		return false;
+
+	mWorld->SetContactListener(mContactsListener);
+	return true;
 }
 
 PhysicsEngine::~PhysicsEngine()
 {
 	delete mWorld;
+	delete mContactsListener;
 }
 
 b2Body *PhysicsEngine::createBody(const b2BodyDef &bodyDef) const

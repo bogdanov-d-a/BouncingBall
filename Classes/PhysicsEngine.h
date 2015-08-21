@@ -3,18 +3,22 @@
 #include "cocos2d.h"
 #include "Box2D\Box2D.h"
 
+class PhysicsContactsListener;
+
 class PhysicsEngine : public cocos2d::Node
 {
 public:
 	static PhysicsEngine* create(cocos2d::Layer *parent, int pixelsPerMeter);
 
 	PhysicsEngine(cocos2d::Layer *parent, int pixelsPerMeter);
+	bool init();
+
 	~PhysicsEngine();
 
 	b2Body *createBody(const b2BodyDef &bodyDef) const;
 	void deleteBodyLater(b2Body *body);
 
-	/// Updates physics world.
+	// Updates physics world.
 	void tick(float dt);
 
 	cocos2d::Vec2 getBodyPosition(b2Body *body) const;
@@ -28,6 +32,7 @@ public:
 
 private:
 	b2World *mWorld;
+	PhysicsContactsListener *mContactsListener;
 	std::set<b2Body *> mBodiesToDelete;
 	int mPixelsPerMeter;
 	cocos2d::Layer *m_parent;
