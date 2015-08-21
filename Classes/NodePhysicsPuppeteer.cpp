@@ -32,6 +32,7 @@ bool NodePhysicsPuppeteer::init(Node *node, const b2BodyDef &bodyDef, PhysicsEng
 	}
 
 	m_node = node;
+	return true;
 }
 
 Node *NodePhysicsPuppeteer::getNode() const

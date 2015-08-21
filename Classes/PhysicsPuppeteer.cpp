@@ -29,6 +29,8 @@ bool PhysicsPuppeteer::init(const b2BodyDef &bodyDef, PhysicsEngine *engine)
 	b2BodyDef fixedDef = bodyDef;
 	fixedDef.userData = reinterpret_cast<void *>(this);
 	m_body = m_engine->createBody(fixedDef);
+
+	return true;
 }
 
 PhysicsEngine *PhysicsPuppeteer::getEngine() const
