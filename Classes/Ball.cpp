@@ -6,10 +6,16 @@ USING_NS_CC;
 
 Ball* Ball::create(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius, HelloWorld *scene)
 {
-	Ball *ret = new Ball();
-	ret->init(physEngine, startPos, radius, scene);
-	ret->autorelease();
-	return ret;
+	Ball *pRet = new (std::nothrow) Ball();
+	if (pRet && pRet->init(physEngine, startPos, radius, scene))
+	{
+		pRet->autorelease();
+	}
+	else
+	{
+		CC_SAFE_DELETE(pRet);
+	}
+	return pRet;
 }
 
 bool Ball::init(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius, HelloWorld *scene)
@@ -24,6 +30,8 @@ bool Ball::init(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius,
 		CCASSERT(false, "Can't create body");
 
 	auto m_ballPuppeteer = BallPuppeteer::create(this, ballBodyDef, physEngine, scene);
+	if (!m_ballPuppeteer)
+		return false;
 	addChild(m_ballPuppeteer);
 
 	b2CircleShape circle;
@@ -34,7 +42,8 @@ bool Ball::init(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius,
 	ballShapeDef.density = 1.0f;
 	ballShapeDef.friction = 0.2f;
 	ballShapeDef.restitution = 0.8f;
-	m_ballPuppeteer->getBody()->CreateFixture(&ballShapeDef);
+	if (!m_ballPuppeteer->getBody()->CreateFixture(&ballShapeDef))
+		CCASSERT(false, "Can't create fixture");
 
 	return true;
 }
