@@ -32,7 +32,6 @@ private:
 	PhysicsEngine *m_physEngine;
 	Ball *m_ballSprite;
 	Wall *m_wallSprite;
-	NodePhysicsPuppeteer *m_wallPuppeteer;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

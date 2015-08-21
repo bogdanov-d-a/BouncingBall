@@ -27,7 +27,6 @@ HelloWorld::HelloWorld()
 	:m_physEngine(nullptr)
 	,m_ballSprite(nullptr)
 	,m_wallSprite(nullptr)
-	,m_wallPuppeteer(nullptr)
 {}
 
 // on "init" you need to initialize your instance
@@ -61,28 +60,8 @@ bool HelloWorld::init()
 	m_ballSprite = Ball::create(m_physEngine, b2Vec2(ballStartX / m_physEngine->getPtmRatio(), ballStartY / m_physEngine->getPtmRatio()), ballRadius / m_physEngine->getPtmRatio(), this);
 	this->addChild(m_ballSprite);
 
-	// Create wall
-	b2BodyDef wallBodyDef;
-	wallBodyDef.type = b2_staticBody;
-	wallBodyDef.position.Set(wallX / PTM_RATIO, wallY / PTM_RATIO);
-	m_physEngine->createBody(wallBodyDef);
-
-	// Add wall sprite
-	m_wallSprite = Wall::create();
+	m_wallSprite = Wall::create(m_physEngine, b2Vec2(wallX / m_physEngine->getPtmRatio(), wallY / m_physEngine->getPtmRatio()), Size(wallWidth / m_physEngine->getPtmRatio(), wallHeight / m_physEngine->getPtmRatio()));
 	this->addChild(m_wallSprite);
-
-	m_wallPuppeteer = NodePhysicsPuppeteer::create(m_wallSprite, wallBodyDef, m_physEngine);
-	m_wallSprite->addChild(m_wallPuppeteer);
-
-	b2PolygonShape polygon;
-	polygon.SetAsBox(wallWidth / 2 / PTM_RATIO, wallHeight / 2 / PTM_RATIO);
-
-	b2FixtureDef wallShapeDef;
-	wallShapeDef.shape = &polygon;
-	wallShapeDef.density = 1.0f;
-	wallShapeDef.friction = 0.2f;
-	wallShapeDef.restitution = 0.8f;
-	m_wallPuppeteer->getBody()->CreateFixture(&wallShapeDef);
 
 	return true;
 }
