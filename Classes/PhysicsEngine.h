@@ -5,7 +5,7 @@
 
 class PhysicsContactsListener;
 
-class PhysicsEngine : public cocos2d::Node
+class PhysicsEngine : public cocos2d::Object
 {
 public:
 	static PhysicsEngine* create(cocos2d::Layer *parent, int pixelsPerMeter);

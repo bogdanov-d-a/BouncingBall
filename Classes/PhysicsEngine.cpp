@@ -27,9 +27,6 @@ PhysicsEngine::PhysicsEngine(Layer *parent, int pixelsPerMeter)
 
 bool PhysicsEngine::init()
 {
-	if (!Node::init())
-		return false;
-
 	mWorld = new (std::nothrow) b2World(b2Vec2(0.0f, -9.8f));
 	if (!mWorld)
 		return false;
