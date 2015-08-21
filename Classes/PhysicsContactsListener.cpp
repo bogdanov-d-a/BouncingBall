@@ -1,4 +1,5 @@
 #include "PhysicsContactsListener.h"
+#include "PhysicsPuppeteer.h"
 
 void PhysicsContactsListener::BeginContact(b2Contact *contact)
 {
