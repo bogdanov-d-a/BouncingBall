@@ -1,7 +1,9 @@
 #include "NodePhysicsPuppeteer.h"
 #include "PhysicsEngine.h"
 
-NodePhysicsPuppeteer *NodePhysicsPuppeteer::create(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine)
+USING_NS_CC;
+
+NodePhysicsPuppeteer *NodePhysicsPuppeteer::create(Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine)
 {
 	NodePhysicsPuppeteer *ret = new NodePhysicsPuppeteer();
 	ret->init(node, bodyDef, engine);
@@ -19,16 +21,16 @@ void NodePhysicsPuppeteer::willUpdatePhysics(float dt)
 {}
 
 NodePhysicsPuppeteer::NodePhysicsPuppeteer()
-: m_node(nullptr)
+	: m_node(nullptr)
 {}
 
-void NodePhysicsPuppeteer::init(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine)
+void NodePhysicsPuppeteer::init(Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine)
 {
 	PhysicsPuppeteer::init(bodyDef, engine);
 	m_node = node;
 }
 
-cocos2d::CCNode *NodePhysicsPuppeteer::getNode() const
+Node *NodePhysicsPuppeteer::getNode() const
 {
 	return m_node;
 }
