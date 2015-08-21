@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "ObjectKeeper.h"
 
 class PhysicsEngine;
 class Ball;
@@ -18,8 +19,6 @@ public:
 	// Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
 	virtual bool init();
 	
-	~HelloWorld();
-
 	// implement the "static create()" method manually
 	CREATE_FUNC(HelloWorld);
 
@@ -30,7 +29,7 @@ public:
 	void ShiftCamera(float dy);
 
 private:
-	PhysicsEngine *m_physEngine;
+	ObjectKeeper<PhysicsEngine> m_physEngine;
 	Ball *m_ball;
 	Wall *m_wall;
 };
