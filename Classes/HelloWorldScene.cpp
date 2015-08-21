@@ -25,8 +25,7 @@ Scene* HelloWorld::createScene()
 }
 
 HelloWorld::HelloWorld()
-	: m_physEngine(nullptr)
-	, m_ball(nullptr)
+	: m_ball(nullptr)
 	, m_wall(nullptr)
 {}
 
