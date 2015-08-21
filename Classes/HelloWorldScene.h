@@ -6,7 +6,6 @@
 class PhysicsEngine;
 class Ball;
 class Wall;
-class NodePhysicsPuppeteer;
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -30,8 +29,8 @@ public:
 
 private:
 	PhysicsEngine *m_physEngine;
-	Ball *m_ballSprite;
-	Wall *m_wallSprite;
+	Ball *m_ball;
+	Wall *m_wall;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
