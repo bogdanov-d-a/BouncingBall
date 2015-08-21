@@ -24,9 +24,13 @@ NodePhysicsPuppeteer::NodePhysicsPuppeteer()
 	: m_node(nullptr)
 {}
 
-void NodePhysicsPuppeteer::init(Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine)
+bool NodePhysicsPuppeteer::init(Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine)
 {
-	PhysicsPuppeteer::init(bodyDef, engine);
+	if (!PhysicsPuppeteer::init(bodyDef, engine))
+	{
+		return false;
+	}
+
 	m_node = node;
 }
 

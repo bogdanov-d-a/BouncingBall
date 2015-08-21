@@ -14,8 +14,13 @@ PhysicsPuppeteer::~PhysicsPuppeteer()
 	}
 }
 
-void PhysicsPuppeteer::init(const b2BodyDef &bodyDef, PhysicsEngine *engine)
+bool PhysicsPuppeteer::init(const b2BodyDef &bodyDef, PhysicsEngine *engine)
 {
+	if (!Node::init())
+	{
+		return false;
+	}
+
 	m_engine = engine;
 	m_engine->retain();
 

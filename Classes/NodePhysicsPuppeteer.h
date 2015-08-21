@@ -11,7 +11,7 @@ public:
 
 protected:
 	NodePhysicsPuppeteer();
-	void init(cocos2d::Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine);
+	bool init(cocos2d::Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine);
 	cocos2d::Node *getNode() const;
 
 private:
