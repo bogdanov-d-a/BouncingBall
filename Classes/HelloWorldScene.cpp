@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 #include "PhysicsEngine.h"
 #include "Ball.h"
+#include "Wall.h"
 #include "NodePhysicsPuppeteer.h"
 
 USING_NS_CC;
@@ -67,7 +68,7 @@ bool HelloWorld::init()
 	m_physEngine->createBody(wallBodyDef);
 
 	// Add wall sprite
-	m_wallSprite = Sprite::create("wall.png");
+	m_wallSprite = Wall::create();
 	this->addChild(m_wallSprite);
 
 	m_wallPuppeteer = NodePhysicsPuppeteer::create(m_wallSprite, wallBodyDef, m_physEngine);
