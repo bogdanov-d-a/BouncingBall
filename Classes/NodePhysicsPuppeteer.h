@@ -6,15 +6,15 @@
 class NodePhysicsPuppeteer : public PhysicsPuppeteer
 {
 public:
-    static NodePhysicsPuppeteer *create(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine);
-    void didUpdatePhysics() override;
-    void willUpdatePhysics(float dt) override;
+	static NodePhysicsPuppeteer *create(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine);
+	void didUpdatePhysics() override;
+	void willUpdatePhysics(float dt) override;
 
 protected:
-    NodePhysicsPuppeteer();
-    void init(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine);
-    cocos2d::CCNode *getNode() const;
+	NodePhysicsPuppeteer();
+	void init(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine);
+	cocos2d::CCNode *getNode() const;
 
 private:
-    cocos2d::CCNode *m_node;
+	cocos2d::CCNode *m_node;
 };
