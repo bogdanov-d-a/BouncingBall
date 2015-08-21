@@ -6,9 +6,8 @@
 class PhysicsPuppeteer;
 class PhysicsEngine;
 
-class PhysicsContactInfo
+struct PhysicsContactInfo
 {
-public:
 	b2Fixture *myFixture;			 ///< Cannot be null.
 	b2Fixture *theirFixture;		  ///< Cannot be null.
 	PhysicsPuppeteer *theirPuppeteer; ///< Is null if and only if object has no puppeteer.
@@ -20,7 +19,7 @@ public:
 	}
 };
 
-class PhysicsPuppeteer : public cocos2d::CCNode
+class PhysicsPuppeteer : public cocos2d::Node
 {
 public:
 	PhysicsPuppeteer();
@@ -37,6 +36,6 @@ public:
 	virtual void didEndContact(const PhysicsContactInfo &info) { CC_UNUSED_PARAM(info); }
 
 private:
-	b2Body *m_body = nullptr;
-	PhysicsEngine *m_engine = nullptr;
+	b2Body *m_body;
+	PhysicsEngine *m_engine;
 };
