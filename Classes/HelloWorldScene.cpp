@@ -51,7 +51,7 @@ bool HelloWorld::init()
 	m_physEngine = PhysicsEngine::create(this, 32);
 	if (!m_physEngine)
 		return false;
-	addChild(m_physEngine);
+	m_physEngine->retain();
 
 	m_ball = Ball::create(m_physEngine, b2Vec2(ballStartX / m_physEngine->getPtmRatio(), ballStartY / m_physEngine->getPtmRatio()), ballRadius / m_physEngine->getPtmRatio(), this);
 	if (!m_ball)
@@ -64,6 +64,11 @@ bool HelloWorld::init()
 	this->addChild(m_wall);
 
 	return true;
+}
+
+HelloWorld::~HelloWorld()
+{
+	CC_SAFE_RELEASE(m_physEngine);
 }
 
 void HelloWorld::update(float dt)
