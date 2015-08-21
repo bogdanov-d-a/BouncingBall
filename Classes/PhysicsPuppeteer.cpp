@@ -8,20 +8,14 @@ PhysicsPuppeteer::PhysicsPuppeteer()
 
 PhysicsPuppeteer::~PhysicsPuppeteer()
 {
-	if (m_body)
-	{
-		m_engine->deleteBodyLater(m_body);
-		m_body = nullptr;
-		m_engine->release();
-	}
+	m_engine->deleteBodyLater(m_body);
+	m_engine->release();
 }
 
 bool PhysicsPuppeteer::init(const b2BodyDef &bodyDef, PhysicsEngine *engine)
 {
 	if (!Node::init())
-	{
 		return false;
-	}
 
 	m_engine = engine;
 	m_engine->retain();
@@ -29,6 +23,7 @@ bool PhysicsPuppeteer::init(const b2BodyDef &bodyDef, PhysicsEngine *engine)
 	b2BodyDef fixedDef = bodyDef;
 	fixedDef.userData = reinterpret_cast<void *>(this);
 	m_body = m_engine->createBody(fixedDef);
+	CCASSERT(m_body, "Can't create body");
 
 	return true;
 }
