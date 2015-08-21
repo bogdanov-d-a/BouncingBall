@@ -29,10 +29,10 @@ bool Ball::init(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius,
 	if (!physEngine->createBody(ballBodyDef))
 		CCASSERT(false, "Can't create body");
 
-	auto m_ballPuppeteer = BallPuppeteer::create(this, ballBodyDef, physEngine, scene);
-	if (!m_ballPuppeteer)
+	auto ballPuppeteer = BallPuppeteer::create(this, ballBodyDef, physEngine, scene);
+	if (!ballPuppeteer)
 		return false;
-	addChild(m_ballPuppeteer);
+	addChild(ballPuppeteer);
 
 	b2CircleShape circle;
 	circle.m_radius = radius;
@@ -42,7 +42,7 @@ bool Ball::init(PhysicsEngine *physEngine, b2Vec2 const& startPos, float radius,
 	ballShapeDef.density = 1.0f;
 	ballShapeDef.friction = 0.2f;
 	ballShapeDef.restitution = 0.8f;
-	if (!m_ballPuppeteer->getBody()->CreateFixture(&ballShapeDef))
+	if (!ballPuppeteer->getBody()->CreateFixture(&ballShapeDef))
 		CCASSERT(false, "Can't create fixture");
 
 	return true;
