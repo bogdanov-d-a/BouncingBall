@@ -1,15 +1,23 @@
 #include "BallPuppeteer.h"
 #include "HelloWorldScene.h"
 
-BallPuppeteer *BallPuppeteer::create(cocos2d::CCNode *node, const b2BodyDef &bodyDef, PhysicsEngine *engine, HelloWorld *parent)
+USING_NS_CC;
+
+BallPuppeteer *BallPuppeteer::create(Node *node, const b2BodyDef &bodyDef, PhysicsEngine *engine, HelloWorld *parent)
 {
-	BallPuppeteer *ret = new BallPuppeteer(node, parent);
-	ret->init(bodyDef, engine);
-	ret->autorelease();
-	return ret;
+	BallPuppeteer *pRet = new (std::nothrow) BallPuppeteer(node, parent);
+	if (pRet && pRet->init(bodyDef, engine))
+	{
+		pRet->autorelease();
+	}
+	else
+	{
+		CC_SAFE_DELETE(pRet);
+	}
+	return pRet;
 }
 
-BallPuppeteer::BallPuppeteer(cocos2d::CCNode *node, HelloWorld *parent)
+BallPuppeteer::BallPuppeteer(Node *node, HelloWorld *parent)
 	: NodePhysicsPuppeteer(node)
 	, m_parent(parent)
 {}
